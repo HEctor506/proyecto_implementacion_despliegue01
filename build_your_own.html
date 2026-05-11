@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Build Your Own | Pretzel Pizza</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script src="config.js"></script>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body class="bg-background text-on-background font-body-default min-h-screen flex flex-col">
+<!-- Top Navigation Bar -->
+<header class="sticky top-0 w-full z-50 bg-background/80 backdrop-blur-md border-b border-outline-variant/30 h-16 transition-all duration-200 relative">
+<div class="flex justify-between items-center h-16 px-6 max-w-container-max mx-auto"><!-- Left: Logo -->
+<div class="flex items-center gap-2">
+<button class="md:hidden material-symbols-outlined text-on-surface" data-icon="menu">menu</button>
+<div class="flex items-center gap-2">
+<span class="text-2xl">🥨</span>
+<span class="font-['Playfair_Display'] font-bold text-xl text-primary">Pretzel Pizza</span>
+</div>
+</div>
+<!-- Center: Desktop Links (Hidden on Mobile) -->
+<nav class="hidden md:flex items-center gap-8 absolute left-1/2 -translate-x-1/2">
+<a class="font-nav-link text-nav-link text-muted-foreground hover:text-primary transition-colors" href="index.html">Home</a>
+<a class="font-nav-link text-nav-link text-muted-foreground hover:text-primary transition-colors" href="menu.html">Menu</a>
+<a class="font-nav-link text-nav-link text-primary font-bold" href="build_your_own.html">Build Your Own</a>
+</nav>
+<!-- Right: Actions -->
+<div class="flex items-center gap-4">
+<button class="material-symbols-outlined text-on-surface hover:text-primary transition-colors" data-icon="dark_mode">dark_mode</button>
+<button class="material-symbols-outlined text-on-surface hover:text-primary transition-colors" data-icon="person">person</button>
+<button class="relative material-symbols-outlined text-on-surface hover:text-primary transition-colors" data-icon="shopping_cart">
+        shopping_cart
+        <span class="absolute -top-1.5 -right-1.5 bg-primary-container text-white text-[10px] w-4 h-4 flex items-center justify-center rounded-full font-bold">1</span>
+</button>
+</div></div>
+</header>
+<main class="flex-1 pb-32">
+<!-- Progress Stepper -->
+<nav class="bg-surface px-6 py-4 border-b border-outline-variant/20 sticky top-16 z-40">
+<div class="flex justify-between items-center max-w-lg mx-auto">
+<div class="flex flex-col items-center gap-1 relative step-active">
+<span class="font-nav-link text-nav-link text-primary font-bold">Sauce</span>
+</div>
+<div class="h-px bg-outline-variant flex-1 mx-2"></div>
+<div class="flex flex-col items-center gap-1">
+<span class="font-nav-link text-nav-link text-muted-foreground">Cheese</span>
+</div>
+<div class="h-px bg-outline-variant flex-1 mx-2"></div>
+<div class="flex flex-col items-center gap-1">
+<span class="font-nav-link text-nav-link text-muted-foreground">Toppings</span>
+</div>
+<div class="h-px bg-outline-variant flex-1 mx-2"></div>
+<div class="flex flex-col items-center gap-1">
+<span class="font-nav-link text-nav-link text-muted-foreground">Review</span>
+</div>
+</div>
+</nav>
+<!-- Live Preview Canvas -->
+<section class="relative bg-warm-tint overflow-hidden py-8">
+<div class="absolute inset-0 opacity-20 pointer-events-none" style="background-image: radial-gradient(circle at 50% 50%, #f97306 0%, transparent 70%); filter: blur(40px);"></div>
+<div class="px-6 flex justify-center">
+<div class="relative w-64 h-64 md:w-80 md:h-80 rounded-full shadow-2xl overflow-hidden border-4 border-white">
+<img alt="Custom Pizza Preview" class="w-full h-full object-cover" src="assets/cheese-stuffed-pizza-pretzel.jpg"/>
+<div class="absolute inset-0 bg-gradient-to-tr from-black/20 to-transparent"></div>
+</div>
+</div>
+<div class="text-center mt-6 px-6">
+<h2 class="font-h2-section text-h2-section text-on-surface">Choose Your Sauce</h2>
+<p class="font-body-default text-muted-foreground mt-2">The foundation of every great pretzel crust.</p>
+</div>
+</section>
+<!-- Options Selection -->
+<section class="px-6 py-8 space-y-4 max-w-lg mx-auto">
+<!-- Option 1 -->
+<label class="group flex items-center justify-between p-4 bg-card border border-border rounded-2xl cursor-pointer hover:border-primary-container transition-all active:scale-[0.98]">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 rounded-xl bg-surface-container overflow-hidden">
+<div class="w-full h-full bg-primary/20 flex items-center justify-center">
+<span class="material-symbols-outlined text-primary" data-icon="restaurant">restaurant</span>
+</div>
+</div>
+<div>
+<p class="font-bold text-on-surface">Artisanal Tomato</p>
+<p class="text-sm text-muted-foreground">San Marzano with fresh basil</p>
+</div>
+</div>
+<div class="flex items-center gap-3">
+<span class="text-sm font-bold text-primary">+$0.00</span>
+<input checked="" class="w-6 h-6 text-primary-container border-border focus:ring-primary-container rounded-full" name="sauce" type="radio"/>
+</div>
+</label>
+<!-- Option 2 -->
+<label class="group flex items-center justify-between p-4 bg-card border border-border rounded-2xl cursor-pointer hover:border-primary-container transition-all active:scale-[0.98]">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 rounded-xl bg-surface-container overflow-hidden">
+<div class="w-full h-full bg-secondary-container/20 flex items-center justify-center">
+<span class="material-symbols-outlined text-secondary" data-icon="water_drop">water_drop</span>
+</div>
+</div>
+<div>
+<p class="font-bold text-on-surface">Honey Mustard Glaze</p>
+<p class="text-sm text-muted-foreground">The classic pretzel pairing</p>
+</div>
+</div>
+<div class="flex items-center gap-3">
+<span class="text-sm font-bold text-primary">+$1.50</span>
+<input class="w-6 h-6 text-primary-container border-border focus:ring-primary-container rounded-full" name="sauce" type="radio"/>
+</div>
+</label>
+<!-- Option 3 -->
+<label class="group flex items-center justify-between p-4 bg-card border border-border rounded-2xl cursor-pointer hover:border-primary-container transition-all active:scale-[0.98]">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 rounded-xl bg-surface-container overflow-hidden">
+<div class="w-full h-full bg-tertiary-container/20 flex items-center justify-center">
+<span class="material-symbols-outlined text-tertiary" data-icon="egg">egg</span>
+</div>
+</div>
+<div>
+<p class="font-bold text-on-surface">Creamy Garlic Aioli</p>
+<p class="text-sm text-muted-foreground">Rich, roasted garlic spread</p>
+</div>
+</div>
+<div class="flex items-center gap-3">
+<span class="text-sm font-bold text-primary">+$1.25</span>
+<input class="w-6 h-6 text-primary-container border-border focus:ring-primary-container rounded-full" name="sauce" type="radio"/>
+</div>
+</label>
+<!-- Option 4 -->
+<label class="group flex items-center justify-between p-4 bg-card border border-border rounded-2xl cursor-pointer hover:border-primary-container transition-all active:scale-[0.98]">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 rounded-xl bg-surface-container overflow-hidden">
+<div class="w-full h-full bg-error-container/20 flex items-center justify-center">
+<span class="material-symbols-outlined text-error" data-icon="local_fire_department">local_fire_department</span>
+</div>
+</div>
+<div>
+<p class="font-bold text-on-surface">Spicy Buffalo</p>
+<p class="text-sm text-muted-foreground">Kick of heat for bold foodies</p>
+</div>
+</div>
+<div class="flex items-center gap-3">
+<span class="text-sm font-bold text-primary">+$1.00</span>
+<input class="w-6 h-6 text-primary-container border-border focus:ring-primary-container rounded-full" name="sauce" type="radio"/>
+</div>
+</label>
+</section>
+</main>
+<!-- Bottom Navigation Controls -->
+<footer class="fixed bottom-0 left-0 w-full bg-surface dark:bg-dark-card border-t border-outline-variant/30 py-4 px-6 shadow-2xl z-50">
+<div class="max-w-lg mx-auto flex gap-4">
+<button class="flex-1 h-14 rounded-xl border-2 border-border font-bold text-on-surface-variant hover:bg-surface-variant/20 transition-all active:scale-95">
+                Back
+            </button>
+<button class="flex-[2] h-14 rounded-xl bg-primary-container text-white font-bold flex items-center justify-center gap-2 shadow-lg shadow-primary-container/20 hover:opacity-90 transition-all active:scale-95">
+                Next: Cheese
+                <span class="material-symbols-outlined" data-icon="chevron_right">chevron_right</span>
+</button>
+</div>
+</footer>
+<!-- Bottom NavBar Shell (Inactive for task flow) -->
+<div class="hidden md:hidden">
+<!-- Rendered to satisfy Shared Components logic requirements, hidden as this is a task-focused screen -->
+<nav class="fixed bottom-0 left-0 w-full flex justify-around items-center py-3 px-4 bg-surface dark:bg-dark-card">
+<div class="flex flex-col items-center justify-center text-muted-foreground">
+<span class="material-symbols-outlined" data-icon="restaurant_menu">restaurant_menu</span>
+<span class="text-[10px]">Menu</span>
+</div>
+<div class="flex flex-col items-center justify-center text-muted-foreground">
+<span class="material-symbols-outlined" data-icon="local_offer">local_offer</span>
+<span class="text-[10px]">Offers</span>
+</div>
+<div class="flex flex-col items-center justify-center text-muted-foreground">
+<span class="material-symbols-outlined" data-icon="receipt_long">receipt_long</span>
+<span class="text-[10px]">Orders</span>
+</div>
+<div class="flex flex-col items-center justify-center text-muted-foreground">
+<span class="material-symbols-outlined" data-icon="person">person</span>
+<span class="text-[10px]">Profile</span>
+</div>
+</nav>
+</div>
+</body></html>
