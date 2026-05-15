@@ -1,180 +1,570 @@
 <!DOCTYPE html>
-
-<html lang="en"><head>
+<html lang="en" class="scroll-smooth">
+<head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
 <title>Pretzel Pizza | Artisanal Fusion</title>
 <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
 <script src="config.js"></script>
-<link rel="stylesheet" href="styles.css">
+<link rel="stylesheet" href="stylesheets/style.css">
 </head>
-<body class="bg-background text-foreground font-body-default antialiased">
+<body class="bg-background dark:bg-dark-background text-foreground dark:text-white font-body-default antialiased transition-colors duration-300">
+
+<!-- Toast Notification -->
+<div id="toast" class="fixed bottom-8 left-1/2 bg-foreground dark:bg-white text-white dark:text-foreground px-6 py-3 rounded-full font-bold z-[100] shadow-2xl flex items-center gap-3">
+    <span class="material-symbols-outlined text-primary">check_circle</span>
+    <span>Added to cart!</span>
+</div>
+
 <!-- Sticky Navbar -->
-<header class="bg-background/80 backdrop-blur-md fixed top-0 w-full z-50 h-16 border-b border-border/50">
+<header class="bg-background/80 dark:bg-dark-background/80 backdrop-blur-md fixed top-0 w-full z-50 h-16 border-b border-border/50 dark:border-white/10 transition-colors duration-300">
 <div class="relative flex justify-between items-center h-full px-6 max-w-container-max mx-auto">
-<div class="flex items-center gap-2">
-<button class="md:hidden transition-all duration-200 active:scale-95 text-foreground mr-2">
+<div class="flex items-center gap-2 cursor-pointer" onclick="navigate('home')">
+<button class="md:hidden transition-all duration-200 active:scale-95 text-foreground dark:text-white mr-2">
 <span class="material-symbols-outlined">menu</span>
 </button>
-<span class="text-2xl">🥨</span>
+<span class="text-2xl logo-twist">🥨</span>
 <h1 class="font-h1-hero text-2xl font-bold text-primary whitespace-nowrap">Pretzel Pizza</h1>
 </div>
+
+<!-- Estructura Original del Navbar Restablecida (Convertida a SPA) -->
 <nav class="hidden md:flex items-center gap-8 absolute left-1/2 -translate-x-1/2">
-<a class="font-nav-link text-nav-link text-primary transition-colors" href="index.html">Home</a>
-<a class="font-nav-link text-nav-link text-muted-foreground hover:text-primary transition-colors" href="menu.html">Menu</a>
-<a class="font-nav-link text-nav-link text-muted-foreground hover:text-primary transition-colors" href="build_your_own.html">Build Your Own</a>
+<a class="nav-link font-nav-link text-nav-link text-primary transition-colors cursor-pointer" onclick="navigate('home')">Home</a>
+<a class="nav-link font-nav-link text-nav-link text-muted-foreground dark:text-gray-400 hover:text-primary transition-colors cursor-pointer" onclick="navigate('menu')">Menu</a>
+<a class="nav-link font-nav-link text-nav-link text-muted-foreground dark:text-gray-400 hover:text-primary transition-colors cursor-pointer" onclick="navigate('build')">Build Your Own</a>
 </nav>
+
 <div class="flex items-center gap-4 md:gap-6">
-<button class="p-2 hover:bg-surface-variant/20 rounded-full transition-colors">
-<span class="material-symbols-outlined text-foreground">dark_mode</span>
+<!-- Dark Mode Toggle Añadido -->
+<button onclick="toggleDark()" class="p-2 hover:bg-surface-variant/20 dark:hover:bg-white/10 rounded-full transition-colors">
+<span class="material-symbols-outlined text-foreground dark:text-white" id="theme-icon">dark_mode</span>
 </button>
-<button class="p-2 hover:bg-surface-variant/20 rounded-full transition-colors">
-<span class="material-symbols-outlined text-foreground">person</span>
+<button class="p-2 hover:bg-surface-variant/20 dark:hover:bg-white/10 rounded-full transition-colors">
+<span class="material-symbols-outlined text-foreground dark:text-white">person</span>
 </button>
-<button class="relative p-2 hover:bg-surface-variant/20 rounded-full transition-colors">
-<span class="material-symbols-outlined text-foreground">shopping_cart</span>
-<span class="absolute top-1 right-1 w-4 h-4 bg-primary text-white text-[10px] font-bold flex items-center justify-center rounded-full">2</span>
+<button class="btn-add relative p-2 hover:bg-surface-variant/20 dark:hover:bg-white/10 rounded-full transition-colors">
+<span class="material-symbols-outlined text-foreground dark:text-white">shopping_cart</span>
+<span id="cart-counter" class="absolute top-1 right-1 w-4 h-4 bg-primary text-white text-[10px] font-bold flex items-center justify-center rounded-full transition-transform duration-200">2</span>
 </button>
 </div></div>
 </header>
+
 <main class="pt-16">
-<!-- Hero Section -->
-<section class="bg-[#FBF1E6] py-16 px-6">
-<div class="max-w-container-max mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-<div class="flex flex-col items-start gap-6">
-<span class="inline-flex items-center gap-2 bg-primary/10 text-primary px-4 py-1.5 rounded-full font-pill-badge text-pill-badge">
-<span>🥨</span> New Concept
-                    </span>
-<h1 class="font-h1-hero text-5xl md:text-6xl lg:text-7xl font-black text-foreground">
-                        Pretzel Meets <span class="text-primary">Pizza.</span>
-</h1>
-<p class="font-body-lead text-body-lead text-muted-foreground max-w-xl">
-                        Handcrafted soft pretzel crust topped with gourmet pizza ingredients. A twist on two classics you never knew you needed.
-                    </p>
-<div class="flex flex-wrap gap-4 mt-2">
-<a href="menu.html" class="bg-primary text-white font-bold py-4 px-8 rounded-full shadow-lg hover:shadow-xl hover:bg-primary/90 transition-all active:scale-95 flex items-center gap-2">
-                            Order Now <span class="material-symbols-outlined">arrow_forward</span>
-</a>
-<a href="build_your_own.html" class="bg-transparent border-2 border-primary text-primary font-bold py-4 px-8 rounded-full hover:bg-primary/5 transition-all active:scale-95">
-                            Build Your Own
-                        </a>
-</div>
-</div>
-<div class="relative flex justify-center lg:justify-end">
-<div class="relative w-full max-w-md">
-<div class="absolute -inset-4 rounded-full bg-primary/10 blur-3xl"></div>
-<img alt="Gourmet pretzel pepperoni pizza" class="relative z-10 w-full aspect-square object-cover rounded-2xl shadow-2xl" src="assets/cheese-stuffed-pizza-pretzel.jpg"/>
-</div>
-</div>
-</div>
-</section>
-<!-- How It Works Section -->
-<section class="px-6 py-16 bg-background">
-<div class="max-w-container-max mx-auto">
+
+    <!-- SPA VIEW: HOME -->
+    <div id="view-home" class="spa-view active">
+        <!-- Hero Section Original -->
+        <section class="bg-[#FBF1E6] dark:bg-dark-card py-16 px-6 transition-colors duration-300">
+        <div class="max-w-container-max mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+        <div class="flex flex-col items-start gap-6 reveal">
+        <span class="inline-flex items-center gap-2 bg-primary/10 text-primary px-4 py-1.5 rounded-full font-pill-badge text-pill-badge">
+        <span>🥨</span> New Concept
+                            </span>
+        <h1 class="font-h1-hero text-5xl md:text-6xl lg:text-7xl font-black text-foreground dark:text-white">
+                                Pretzel Meets <span class="text-primary">Pizza.</span>
+        </h1>
+        <p class="font-body-lead text-body-lead text-muted-foreground dark:text-gray-300 max-w-xl">
+                                Handcrafted soft pretzel crust topped with gourmet pizza ingredients. A twist on two classics you never knew you needed.
+                            </p>
+        <div class="flex flex-wrap gap-4 mt-2">
+        <button onclick="navigate('menu')" class="bg-primary text-white font-bold py-4 px-8 rounded-full shadow-lg hover:shadow-xl hover:bg-primary/90 transition-all active:scale-95 flex items-center gap-2 hover-scale">
+                                    Order Now <span class="material-symbols-outlined">arrow_forward</span>
+        </button>
+        <button onclick="navigate('build')" class="bg-transparent border-2 border-primary text-primary font-bold py-4 px-8 rounded-full hover:bg-primary/5 dark:hover:bg-primary/20 transition-all active:scale-95 hover-scale">
+                                    Build Your Own
+        </button>
+        </div>
+        </div>
+        <div class="relative flex justify-center lg:justify-end reveal">
+        <div class="relative w-full max-w-md">
+        <div class="absolute -inset-4 rounded-full bg-primary/10 blur-3xl"></div>
+        <img alt="Gourmet pretzel pepperoni pizza" class="relative z-10 w-full aspect-square object-cover rounded-2xl shadow-2xl hover-scale" src="assets/cheese-stuffed-pizza-pretzel.jpg"/>
+        </div>
+        </div>
+        </div>
+        </section>
+
+        <!-- Nueva Sección: Nuestra Historia -->
+        <section class="px-6 py-16 bg-card dark:bg-dark-card transition-colors duration-300 border-y border-border dark:border-white/5">
+        <div class="max-w-container-max mx-auto grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+            <div class="reveal">
+                <img src="assets/easy-pizza-pretzel.jpg" alt="Our History" class="w-full rounded-2xl shadow-xl object-cover aspect-[4/3] hover-scale">
+            </div>
+            <div class="space-y-6 reveal">
+                <h2 class="font-h2-section text-4xl font-bold text-foreground dark:text-white">Nuestra Historia (Our Story)</h2>
+                <div class="w-16 h-1 bg-primary rounded-full"></div>
+                <p class="text-muted-foreground dark:text-gray-300 text-body-lead">
+                    Born from a happy culinary "accident" in our small bakery, we fused the soft, chewy texture of a traditional alkaline-bathed pretzel with the vibrant soul of Italian pizza.
+                </p>
+                <p class="text-muted-foreground dark:text-gray-300 text-body-default">
+                    Every pretzel pizza crust is hand-twisted, brushed with garlic butter, and stone-baked to perfection. We believe in honoring tradition while giving it a completely new, delicious twist.
+                </p>
+            </div>
+        </div>
+        </section>
+
+        <!-- How It Works Section Original -->
+        <section class="px-6 py-16 bg-background dark:bg-dark-background transition-colors duration-300">
+        <div class="max-w-container-max mx-auto">
+        <div class="text-center mb-12 reveal">
+        <h2 class="font-h2-section text-4xl font-bold text-foreground dark:text-white mb-4">How It Works</h2>
+        <div class="w-16 h-1 bg-primary mx-auto rounded-full"></div>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div class="flex flex-col items-center text-center p-8 bg-card dark:bg-dark-card rounded-2xl shadow-sm border border-border/50 dark:border-white/10 transition-transform hover:-translate-y-2 reveal hover-scale">
+        <div class="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mb-6">
+        <span class="material-symbols-outlined text-primary text-3xl">cooking</span>
+        </div>
+        <h3 class="font-h3-card text-xl font-bold mb-3 dark:text-white">Choose Your Style</h3>
+        <p class="text-muted-foreground dark:text-gray-400 text-body-default">Pick from our menu or build your own creation</p>
+        </div>
+        <div class="flex flex-col items-center text-center p-8 bg-card dark:bg-dark-card rounded-2xl shadow-sm border border-border/50 dark:border-white/10 transition-transform hover:-translate-y-2 reveal hover-scale" style="transition-delay: 0.1s;">
+        <div class="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mb-6">
+        <span class="material-symbols-outlined text-primary text-3xl">schedule</span>
+        </div>
+        <h3 class="font-h3-card text-xl font-bold mb-3 dark:text-white">Freshly Made</h3>
+        <p class="text-muted-foreground dark:text-gray-400 text-body-default">Each pretzel pizza is baked to golden perfection</p>
+        </div>
+        <div class="flex flex-col items-center text-center p-8 bg-card dark:bg-dark-card rounded-2xl shadow-sm border border-border/50 dark:border-white/10 transition-transform hover:-translate-y-2 reveal hover-scale" style="transition-delay: 0.2s;">
+        <div class="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mb-6">
+        <span class="material-symbols-outlined text-primary text-3xl">local_shipping</span>
+        </div>
+        <h3 class="font-h3-card text-xl font-bold mb-3 dark:text-white">Fast Delivery</h3>
+        <p class="text-muted-foreground dark:text-gray-400 text-body-default">Hot and fresh, delivered right to your door</p>
+        </div>
+        </div>
+        </div>
+        </section>
+
+        <!-- Nueva Sección: Promociones Semanales -->
+        <section class="px-6 py-12 bg-primary transition-colors duration-300">
+        <div class="max-w-container-max mx-auto text-center reveal">
+            <h2 class="font-h2-section text-3xl md:text-4xl font-bold text-white mb-4">Promociones Semanales (Twist Tuesdays)</h2>
+            <p class="text-white opacity-90 text-lg max-w-2xl mx-auto mb-8">Every Tuesday, buy any Gourmet Twist and get an Original Twist at <strong>50% off!</strong> Limited time offer.</p>
+            <button onclick="navigate('menu')" class="bg-white text-primary font-bold py-3 px-8 rounded-full shadow-lg hover:shadow-xl hover:-translate-y-1 transition-all active:scale-95">
+                Ver Menú / View Menu
+            </button>
+        </div>
+        </section>
+
+        <!-- Fan Favorites Section Original -->
+        <section class="px-6 py-16 bg-muted/40 dark:bg-dark-card/50 transition-colors duration-300">
+        <div class="max-w-container-max mx-auto">
+        <div class="flex flex-col md:flex-row md:items-end justify-between mb-10 gap-4 reveal">
+        <div>
+        <h2 class="font-h2-section text-4xl font-bold text-foreground dark:text-white">Fan Favorites</h2>
+        <p class="text-muted-foreground dark:text-gray-400 mt-2">Our most popular pretzel pizzas</p>
+        </div>
+        <button class="text-primary font-bold flex items-center gap-1 hover:gap-2 transition-all cursor-pointer" onclick="navigate('menu')">
+                                View All <span class="material-symbols-outlined">arrow_forward</span>
+        </button>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <!-- Card 1 -->
+        <div class="bg-card dark:bg-dark-background rounded-2xl overflow-hidden shadow-sm border border-border dark:border-white/10 hover:shadow-lg transition-all hover-scale reveal">
+        <div class="aspect-[4/3] relative">
+        <img alt="The Salted Pep" class="w-full h-full object-cover" src="assets/cheese-stuffed-pizza-pretzel.jpg"/>
+        </div>
+        <div class="p-6">
+        <div class="flex justify-between items-start mb-2">
+        <h3 class="font-h3-card text-xl text-on-surface dark:text-white">The Salted Pep</h3>
+        <span class="text-primary font-bold text-lg">$18.00</span>
+        </div>
+        <p class="text-muted-foreground dark:text-gray-400 text-body-default mb-6">Aged mozzarella, spicy pepperoni, and our signature butter-brushed pretzel crust with coarse sea salt.</p>
+        <button class="btn-add w-full bg-surface-container dark:bg-white/10 text-primary font-bold py-3 rounded-xl hover:bg-primary hover:text-white transition-all active:scale-95">Add to Order</button>
+        </div>
+        </div>
+        <!-- Card 2 -->
+        <div class="bg-card dark:bg-dark-background rounded-2xl overflow-hidden shadow-sm border border-border dark:border-white/10 hover:shadow-lg transition-all hover-scale reveal" style="transition-delay: 0.1s;">
+        <div class="aspect-[4/3] relative">
+        <img alt="Garlic Knot Twist" class="w-full h-full object-cover" src="assets/pepperoni-pizza.jpg"/>
+        <span class="absolute top-4 left-4 bg-primary text-white text-xs font-bold px-3 py-1 rounded-full uppercase">Chef's Pick</span>
+        </div>
+        <div class="p-6">
+        <div class="flex justify-between items-start mb-2">
+        <h3 class="font-h3-card text-xl text-on-surface dark:text-white">Garlic Knot Twist</h3>
+        <span class="text-primary font-bold text-lg">$19.50</span>
+        </div>
+        <p class="text-muted-foreground dark:text-gray-400 text-body-default mb-6">Roasted garlic white sauce, fresh ricotta, and a rosemary-infused pretzel crust twist.</p>
+        <button class="btn-add w-full bg-surface-container dark:bg-white/10 text-primary font-bold py-3 rounded-xl hover:bg-primary hover:text-white transition-all active:scale-95">Add to Order</button>
+        </div>
+        </div>
+        <!-- Card 3 -->
+        <div class="bg-card dark:bg-dark-background rounded-2xl overflow-hidden shadow-sm border border-border dark:border-white/10 hover:shadow-lg transition-all hidden lg:block hover-scale reveal" style="transition-delay: 0.2s;">
+        <div class="aspect-[4/3] relative">
+        <img alt="Signature Pretzel" class="w-full h-full object-cover" src="assets/easy-pizza-pretzel.jpg"/>
+        </div>
+        <div class="p-6">
+        <div class="flex justify-between items-start mb-2">
+        <h3 class="font-h3-card text-xl text-on-surface dark:text-white">Original Twist</h3>
+        <span class="text-primary font-bold text-lg">$16.50</span>
+        </div>
+        <p class="text-muted-foreground dark:text-gray-400 text-body-default mb-6">Simple, classic, and perfectly salted. Our signature hand-twisted pretzel dough with mozzarella.</p>
+        <button class="btn-add w-full bg-surface-container dark:bg-white/10 text-primary font-bold py-3 rounded-xl hover:bg-primary hover:text-white transition-all active:scale-95">Add to Order</button>
+        </div>
+        </div>
+        </div>
+        </div>
+        </section>
+
+        <!-- Nueva Sección: Ubícanos -->
+        <section class="px-6 py-16 bg-background dark:bg-dark-background transition-colors duration-300">
+        <div class="max-w-container-max mx-auto grid grid-cols-1 md:grid-cols-2 gap-12">
+            <div class="space-y-6 reveal">
+                <h2 class="font-h2-section text-4xl font-bold text-foreground dark:text-white mb-6">Ubícanos (Find Us)</h2>
+                <div class="flex items-start gap-4 p-4 rounded-xl border border-border dark:border-white/10 hover:border-primary transition-colors">
+                    <span class="material-symbols-outlined text-primary text-3xl">location_on</span>
+                    <div>
+                        <h4 class="font-bold text-xl text-foreground dark:text-white">Pretzel Pizza Central</h4>
+                        <p class="text-muted-foreground dark:text-gray-400">Av. Gastronómica 404, Barrio El Twist<br>Ciudad Metropolitana, CP 10293</p>
+                    </div>
+                </div>
+                <div class="flex items-start gap-4 p-4 rounded-xl border border-border dark:border-white/10 hover:border-primary transition-colors">
+                    <span class="material-symbols-outlined text-primary text-3xl">schedule</span>
+                    <div>
+                        <h4 class="font-bold text-xl text-foreground dark:text-white">Horarios</h4>
+                        <p class="text-muted-foreground dark:text-gray-400">Tue - Thu: 12:00 PM - 10:00 PM<br>Fri - Sun: 12:00 PM - 11:30 PM</p>
+                    </div>
+                </div>
+            </div>
+            <div class="bg-gray-200 dark:bg-gray-800 rounded-2xl min-h-[250px] flex flex-col items-center justify-center reveal relative overflow-hidden">
+                <img src="https://images.unsplash.com/photo-1524661135-423995f22d0b?q=80&w=800&auto=format&fit=crop" class="absolute inset-0 w-full h-full object-cover opacity-50 grayscale hover:grayscale-0 transition-all duration-500" alt="Map Placeholder">
+                <span class="material-symbols-outlined text-primary text-6xl relative z-10 drop-shadow-md animate-bounce" style="font-variation-settings: 'FILL' 1;">location_on</span>
+            </div>
+        </div>
+        </section>
+
+        <!-- CTA Section Original -->
+        <section class="px-6 py-24 bg-background dark:bg-dark-background transition-colors duration-300">
+        <div class="max-w-3xl mx-auto text-center reveal">
+        <h2 class="font-h2-section text-4xl md:text-5xl font-bold text-foreground dark:text-white mb-6">Ready to Try Something New?</h2>
+        <p class="text-muted-foreground dark:text-gray-400 text-body-lead mb-10">Build your perfect pretzel pizza with our interactive customizer.</p>
+        <button onclick="navigate('build')" class="bg-primary text-white font-bold py-5 px-12 rounded-full shadow-xl hover:shadow-2xl hover:bg-primary/90 transition-all active:scale-95 flex items-center gap-2 mx-auto text-lg hover-scale">
+                            Start Building <span class="material-symbols-outlined">arrow_forward</span>
+        </button>
+        </div>
+        </section>
+    </div> <!-- END VIEW HOME -->
+
+    <!-- SPA VIEW: MENU NAVIGATOR -->
+    <div id="view-menu" class="spa-view">
+        <section class="pt-20 pb-20 px-4 max-w-container-max mx-auto">
+            
+<!-- Hero/Header -->
 <div class="text-center mb-12">
-<h2 class="font-h2-section text-4xl font-bold text-foreground mb-4">How It Works</h2>
-<div class="w-16 h-1 bg-primary mx-auto rounded-full"></div>
+<h1 class="font-playfair text-h1-hero text-on-surface mb-3">Our Menu</h1>
+<p class="text-on-surface-variant text-body-lead">Choose from our handcrafted pretzel pizzas</p>
 </div>
-<div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-<div class="flex flex-col items-center text-center p-8 bg-card rounded-2xl shadow-sm border border-border/50 transition-transform hover:-translate-y-1">
-<div class="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mb-6">
-<span class="material-symbols-outlined text-primary text-3xl">cooking</span>
+<!-- Category Filters -->
+<div class="flex justify-center gap-3 mb-12 overflow-x-auto no-scrollbar py-2">
+<button class="flex-shrink-0 active-pill px-6 py-2 rounded-lg font-pill-badge transition-colors shadow-sm">All</button>
+<button class="flex-shrink-0 bg-white text-on-surface-variant px-6 py-2 rounded-lg font-pill-badge hover:bg-surface-container-low transition-colors border border-outline-variant/30 shadow-sm">Classic</button>
+<button class="flex-shrink-0 bg-white text-on-surface-variant px-6 py-2 rounded-lg font-pill-badge hover:bg-surface-container-low transition-colors border border-outline-variant/30 shadow-sm">Spicy 🌶️</button>
+<button class="flex-shrink-0 bg-white text-on-surface-variant px-6 py-2 rounded-lg font-pill-badge hover:bg-surface-container-low transition-colors border border-outline-variant/30 shadow-sm">Veggie 🥦</button>
 </div>
-<h3 class="font-h3-card text-xl font-bold mb-3">Choose Your Style</h3>
-<p class="text-muted-foreground text-body-default">Pick from our menu or build your own creation</p>
-</div>
-<div class="flex flex-col items-center text-center p-8 bg-card rounded-2xl shadow-sm border border-border/50 transition-transform hover:-translate-y-1">
-<div class="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mb-6">
-<span class="material-symbols-outlined text-primary text-3xl">schedule</span>
-</div>
-<h3 class="font-h3-card text-xl font-bold mb-3">Freshly Made</h3>
-<p class="text-muted-foreground text-body-default">Each pretzel pizza is baked to golden perfection</p>
-</div>
-<div class="flex flex-col items-center text-center p-8 bg-card rounded-2xl shadow-sm border border-border/50 transition-transform hover:-translate-y-1">
-<div class="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mb-6">
-<span class="material-symbols-outlined text-primary text-3xl">local_shipping</span>
-</div>
-<h3 class="font-h3-card text-xl font-bold mb-3">Fast Delivery</h3>
-<p class="text-muted-foreground text-body-default">Hot and fresh, delivered right to your door</p>
-</div>
-</div>
-</div>
-</section>
-<!-- Fan Favorites Section -->
-<section class="px-6 py-16 bg-muted/40">
-<div class="max-w-container-max mx-auto">
-<div class="flex flex-col md:flex-row md:items-end justify-between mb-10 gap-4">
-<div>
-<h2 class="font-h2-section text-4xl font-bold text-foreground">Fan Favorites</h2>
-<p class="text-muted-foreground mt-2">Our most popular pretzel pizzas</p>
-</div>
-<a class="text-primary font-bold flex items-center gap-1 hover:gap-2 transition-all" href="menu.html">
-                        View All <span class="material-symbols-outlined">arrow_forward</span>
-</a>
-</div>
-<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+<!-- Menu Grid -->
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
 <!-- Card 1 -->
-<div class="bg-card rounded-2xl overflow-hidden shadow-sm border border-border hover:shadow-lg transition-all">
-<div class="aspect-[4/3] relative">
-<img alt="The Salted Pep" class="w-full h-full object-cover" src="assets/cheese-stuffed-pizza-pretzel.jpg"/>
+<div class="bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-shadow border border-outline-variant/20 flex flex-col">
+<div class="relative pt-[75%] bg-surface-container-low">
+<img alt="Classic Cheese" class="absolute inset-0 w-full h-full object-cover p-2" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ1bUu5N6IWOkMlezw2EHndf3XMPYbhhYXyCQ&s"/>
+<div class="absolute top-2 left-2">
+<span class="bg-primary-container text-white px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wide">Popular</span>
 </div>
-<div class="p-6">
+</div>
+<div class="p-5 flex flex-col flex-grow">
 <div class="flex justify-between items-start mb-2">
-<h3 class="font-h3-card text-xl text-on-surface">The Salted Pep</h3>
-<span class="text-primary font-bold text-lg">$18.00</span>
+<h3 class="font-h3-card text-on-surface">Classic Cheese</h3>
+<span class="text-primary-container font-bold">$9.99</span>
 </div>
-<p class="text-muted-foreground text-body-default mb-6">Aged mozzarella, spicy pepperoni, and our signature butter-brushed pretzel crust with coarse sea salt.</p>
-<button class="w-full bg-surface-container text-primary font-bold py-3 rounded-xl hover:bg-primary hover:text-white transition-all active:scale-95">Add to Order</button>
+<p class="text-muted-foreground text-sm mb-6 line-clamp-3">Golden pretzel crust loaded with mozzarella and our signature cheese blend. Simple perfection.</p>
+<div class="mt-auto">
+<button class="w-full bg-primary-container text-white font-bold py-3 rounded-lg flex items-center justify-center gap-2 hover:bg-primary transition-colors active:scale-[0.98]">
+<span class="material-symbols-outlined text-lg">add_shopping_cart</span>
+                        Add to Cart
+                    </button>
+</div>
 </div>
 </div>
 <!-- Card 2 -->
-<div class="bg-card rounded-2xl overflow-hidden shadow-sm border border-border hover:shadow-lg transition-all">
-<div class="aspect-[4/3] relative">
-<img alt="Garlic Knot Twist" class="w-full h-full object-cover" src="assets/pepperoni-pizza.jpg"/>
-<span class="absolute top-4 left-4 bg-primary text-white text-xs font-bold px-3 py-1 rounded-full uppercase">Chef's Pick</span>
+<div class="bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-shadow border border-outline-variant/20 flex flex-col">
+<div class="relative pt-[75%] bg-surface-container-low">
+<img alt="Pepperoni Twist" class="absolute inset-0 w-full h-full object-cover p-2" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ1bUu5N6IWOkMlezw2EHndf3XMPYbhhYXyCQ&s"/>
+<div class="absolute top-2 left-2">
+<span class="bg-primary-container text-white px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wide">Popular</span>
 </div>
-<div class="p-6">
+</div>
+<div class="p-5 flex flex-col flex-grow">
 <div class="flex justify-between items-start mb-2">
-<h3 class="font-h3-card text-xl text-on-surface">Garlic Knot Twist</h3>
-<span class="text-primary font-bold text-lg">$19.50</span>
+<h3 class="font-h3-card text-on-surface">Pepperoni Twist</h3>
+<span class="text-primary-container font-bold">$11.99</span>
 </div>
-<p class="text-muted-foreground text-body-default mb-6">Roasted garlic white sauce, fresh ricotta, and a rosemary-infused pretzel crust twist.</p>
-<button class="w-full bg-surface-container text-primary font-bold py-3 rounded-xl hover:bg-primary hover:text-white transition-all active:scale-95">Add to Order</button>
+<p class="text-muted-foreground text-sm mb-6 line-clamp-3">Crispy pepperoni on a buttery pretzel base with marinara and melted mozzarella.</p>
+<div class="mt-auto">
+<button class="w-full bg-primary-container text-white font-bold py-3 rounded-lg flex items-center justify-center gap-2 hover:bg-primary transition-colors active:scale-[0.98]">
+<span class="material-symbols-outlined text-lg">add_shopping_cart</span>
+                        Add to Cart
+                    </button>
+</div>
 </div>
 </div>
 <!-- Card 3 -->
-<div class="bg-card rounded-2xl overflow-hidden shadow-sm border border-border hover:shadow-lg transition-all hidden lg:block">
-<div class="aspect-[4/3] relative">
-<img alt="Signature Pretzel" class="w-full h-full object-cover" src="assets/easy-pizza-pretzel.jpg"/>
+<div class="bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-shadow border border-outline-variant/20 flex flex-col">
+<div class="relative pt-[75%] bg-surface-container-low">
+<img alt="Spicy Jalapeño" class="absolute inset-0 w-full h-full object-cover p-2" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ1bUu5N6IWOkMlezw2EHndf3XMPYbhhYXyCQ&s"/>
 </div>
-<div class="p-6">
+<div class="p-5 flex flex-col flex-grow">
 <div class="flex justify-between items-start mb-2">
-<h3 class="font-h3-card text-xl text-on-surface">Original Twist</h3>
-<span class="text-primary font-bold text-lg">$16.50</span>
+<h3 class="font-h3-card text-on-surface">Spicy Jalapeño</h3>
+<span class="text-primary-container font-bold">$12.49</span>
 </div>
-<p class="text-muted-foreground text-body-default mb-6">Simple, classic, and perfectly salted. Our signature hand-twisted pretzel dough with mozzarella.</p>
-<button class="w-full bg-surface-container text-primary font-bold py-3 rounded-xl hover:bg-primary hover:text-white transition-all active:scale-95">Add to Order</button>
+<p class="text-muted-foreground text-sm mb-6 line-clamp-3">Jalapeños, pepper jack cheese, and spicy marinara on a salted pretzel crust. Bring the heat!</p>
+<div class="mt-auto">
+<button class="w-full bg-primary-container text-white font-bold py-3 rounded-lg flex items-center justify-center gap-2 hover:bg-primary transition-colors active:scale-[0.98]">
+<span class="material-symbols-outlined text-lg">add_shopping_cart</span>
+                        Add to Cart
+                    </button>
 </div>
 </div>
 </div>
+<!-- Card 4 -->
+<div class="bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-shadow border border-outline-variant/20 flex flex-col">
+<div class="relative pt-[75%] bg-surface-container-low">
+<img alt="Garden Veggie" class="absolute inset-0 w-full h-full object-cover p-2" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ1bUu5N6IWOkMlezw2EHndf3XMPYbhhYXyCQ&s"/>
+<div class="absolute top-2 left-2">
+<span class="bg-primary-container text-white px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wide">Popular</span>
+</div>
+</div>
+<div class="p-5 flex flex-col flex-grow">
+<div class="flex justify-between items-start mb-2">
+<h3 class="font-h3-card text-on-surface">Garden Veggie</h3>
+<span class="text-primary-container font-bold">$11.49</span>
+</div>
+<p class="text-muted-foreground text-sm mb-6 line-clamp-3">Bell peppers, mushrooms, olives, red onion, and fresh tomatoes on herb pretzel dough.</p>
+<div class="mt-auto">
+<button class="w-full bg-primary-container text-white font-bold py-3 rounded-lg flex items-center justify-center gap-2 hover:bg-primary transition-colors active:scale-[0.98]">
+<span class="material-symbols-outlined text-lg">add_shopping_cart</span>
+                        Add to Cart
+                    </button>
+</div>
+</div>
+</div>
+<!-- Card 5 -->
+<div class="bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-shadow border border-outline-variant/20 flex flex-col">
+<div class="relative pt-[75%] bg-surface-container-low">
+<img alt="BBQ Chicken" class="absolute inset-0 w-full h-full object-cover p-2" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ1bUu5N6IWOkMlezw2EHndf3XMPYbhhYXyCQ&s"/>
+</div>
+<div class="p-5 flex flex-col flex-grow">
+<div class="flex justify-between items-start mb-2">
+<h3 class="font-h3-card text-on-surface">BBQ Chicken</h3>
+<span class="text-primary-container font-bold">$13.49</span>
+</div>
+<p class="text-muted-foreground text-sm mb-6 line-clamp-3">Smoky BBQ sauce, grilled chicken, red onion, and cilantro on a golden pretzel base.</p>
+<div class="mt-auto">
+<button class="w-full bg-primary-container text-white font-bold py-3 rounded-lg flex items-center justify-center gap-2 hover:bg-primary transition-colors active:scale-[0.98]">
+<span class="material-symbols-outlined text-lg">add_shopping_cart</span>
+                        Add to Cart
+                    </button>
+</div>
+</div>
+</div>
+<!-- Card 6 -->
+<div class="bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-shadow border border-outline-variant/20 flex flex-col">
+<div class="relative pt-[75%] bg-surface-container-low">
+<img alt="Margherita" class="absolute inset-0 w-full h-full object-cover p-2" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBeLsVTRtVIIEw5l6G56V9cNitHcOqULxczVn20DOD7Vz8JJbZR8TJu-p57FGIFNG3CJJ49YRdaHNF6urJP_11ob4qlOF7zrPQyggYBQAaCollXjfd6fg2Qc-yF_ImydJ_RVS6LwEHMHzj_Dz0H_WcR49HqtWRvWFTIE5bIKxaWQ8szMdMaOm7H7VxS5uG2y988cHziJbIDP7TH4-k5RQBclZ4pUvFWcn6a4NoX8GGYt64UpByjyOA1H8zaMVW3FQyf2do7SlgDqjkH"/>
+</div>
+<div class="p-5 flex flex-col flex-grow">
+<div class="flex justify-between items-start mb-2">
+<h3 class="font-h3-card text-on-surface">Margherita</h3>
+<span class="text-primary-container font-bold">$10.99</span>
+</div>
+<p class="text-muted-foreground text-sm mb-6 line-clamp-3">Fresh mozzarella, vine tomatoes, basil, and extra virgin olive oil on pretzel crust.</p>
+<div class="mt-auto">
+<button class="w-full bg-primary-container text-white font-bold py-3 rounded-lg flex items-center justify-center gap-2 hover:bg-primary transition-colors active:scale-[0.98]">
+<span class="material-symbols-outlined text-lg">add_shopping_cart</span>
+                        Add to Cart
+                    </button>
+</div>
+</div>
+</div>
+<!-- Card 7 -->
+<div class="bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-shadow border border-outline-variant/20 flex flex-col">
+<div class="relative pt-[75%] bg-surface-container-low">
+<img alt="Buffalo Blaze" class="absolute inset-0 w-full h-full object-cover p-2" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ1bUu5N6IWOkMlezw2EHndf3XMPYbhhYXyCQ&s"/>
+</div>
+<div class="p-5 flex flex-col flex-grow">
+<div class="flex justify-between items-start mb-2">
+<h3 class="font-h3-card text-on-surface">Buffalo Blaze</h3>
+<span class="text-primary-container font-bold">$13.99</span>
+</div>
+<p class="text-muted-foreground text-sm mb-6 line-clamp-3">Buffalo chicken, blue cheese crumbles, and ranch drizzle on a buttery pretzel base.</p>
+<div class="mt-auto">
+<button class="w-full bg-primary-container text-white font-bold py-3 rounded-lg flex items-center justify-center gap-2 hover:bg-primary transition-colors active:scale-[0.98]">
+<span class="material-symbols-outlined text-lg">add_shopping_cart</span>
+                        Add to Cart
+                    </button>
+</div>
+</div>
+</div>
+<!-- Card 8 -->
+<div class="bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-shadow border border-outline-variant/20 flex flex-col">
+<div class="relative pt-[75%] bg-surface-container-low">
+<img alt="Mediterranean" class="absolute inset-0 w-full h-full object-cover p-2" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD1MdU1bHD9jx4sMfEb3V2CTdF4kjbV7QJDGjqVVhOCZPvYj5gdbHeLb0VAcJFvm3qk2CeJiGS9LyGmYmFsXzfq7jxvcGEOqvs_zjZB4iqnt2dYUbV2GPvpBAg8JYIEFnys9p5dbAOsoLEwTUHB29RFa8RbOqbznD0GfafqY3_eb-lfUMehrYanVag_BnxxSGFnc---wfIxf5zzZfo6MZvBr0ZP-Q76fbd4d2xo7NdCltQuETNOINmjNJ5Rw0c6Yn1cU7Pv8rgSooKS"/>
+</div>
+<div class="p-5 flex flex-col flex-grow">
+<div class="flex justify-between items-start mb-2">
+<h3 class="font-h3-card text-on-surface">Mediterranean</h3>
+<span class="text-primary-container font-bold">$12.99</span>
+</div>
+<p class="text-muted-foreground text-sm mb-6 line-clamp-3">Feta cheese, sun-dried tomatoes, Kalamata olives, spinach, and artichoke hearts.</p>
+<div class="mt-auto">
+<button class="w-full bg-primary-container text-white font-bold py-3 rounded-lg flex items-center justify-center gap-2 hover:bg-primary transition-colors active:scale-[0.98]">
+<span class="material-symbols-outlined text-lg">add_shopping_cart</span>
+                        Add to Cart
+                    </button>
+</div>
+</div>
+</div>
+</div>
+
+        </section>
+    </div> <!-- END VIEW MENU -->
+
+    <!-- SPA VIEW: BUILD YOUR OWN -->
+    <div id="view-build" class="spa-view">
+        <section class="flex-1 pt-20 pb-32">
+            
+<!-- Progress Stepper -->
+<nav class="bg-surface px-6 py-4 border-b border-outline-variant/20 sticky top-16 z-40">
+<div class="flex justify-between items-center max-w-lg mx-auto">
+<div class="flex flex-col items-center gap-1 relative step-active">
+<span class="font-nav-link text-nav-link text-primary font-bold">Sauce</span>
+</div>
+<div class="h-px bg-outline-variant flex-1 mx-2"></div>
+<div class="flex flex-col items-center gap-1">
+<span class="font-nav-link text-nav-link text-muted-foreground">Cheese</span>
+</div>
+<div class="h-px bg-outline-variant flex-1 mx-2"></div>
+<div class="flex flex-col items-center gap-1">
+<span class="font-nav-link text-nav-link text-muted-foreground">Toppings</span>
+</div>
+<div class="h-px bg-outline-variant flex-1 mx-2"></div>
+<div class="flex flex-col items-center gap-1">
+<span class="font-nav-link text-nav-link text-muted-foreground">Review</span>
+</div>
+</div>
+</nav>
+<!-- Live Preview Canvas -->
+<section class="relative bg-warm-tint overflow-hidden py-8">
+<div class="absolute inset-0 opacity-20 pointer-events-none" style="background-image: radial-gradient(circle at 50% 50%, #f97306 0%, transparent 70%); filter: blur(40px);"></div>
+<div class="px-6 flex justify-center">
+<div class="relative w-64 h-64 md:w-80 md:h-80 rounded-full shadow-2xl overflow-hidden border-4 border-white">
+<img alt="Custom Pizza Preview" class="w-full h-full object-cover" src="assets/cheese-stuffed-pizza-pretzel.jpg"/>
+<div class="absolute inset-0 bg-gradient-to-tr from-black/20 to-transparent"></div>
+</div>
+</div>
+<div class="text-center mt-6 px-6">
+<h2 class="font-h2-section text-h2-section text-on-surface">Choose Your Sauce</h2>
+<p class="font-body-default text-muted-foreground mt-2">The foundation of every great pretzel crust.</p>
 </div>
 </section>
-<!-- CTA Section -->
-<section class="px-6 py-24 bg-background">
-<div class="max-w-3xl mx-auto text-center">
-<h2 class="font-h2-section text-4xl md:text-5xl font-bold text-foreground mb-6">Ready to Try Something New?</h2>
-<p class="text-muted-foreground text-body-lead mb-10">Build your perfect pretzel pizza with our interactive customizer.</p>
-<a href="build_your_own.html" class="bg-primary text-white font-bold py-5 px-12 rounded-full shadow-xl hover:shadow-2xl hover:bg-primary/90 transition-all active:scale-95 flex items-center gap-2 mx-auto text-lg">
-                    Start Building <span class="material-symbols-outlined">arrow_forward</span>
-</a>
+<!-- Options Selection -->
+<section class="px-6 py-8 space-y-4 max-w-lg mx-auto">
+<!-- Option 1 -->
+<label class="group flex items-center justify-between p-4 bg-card border border-border rounded-2xl cursor-pointer hover:border-primary-container transition-all active:scale-[0.98]">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 rounded-xl bg-surface-container overflow-hidden">
+<div class="w-full h-full bg-primary/20 flex items-center justify-center">
+<span class="material-symbols-outlined text-primary" data-icon="restaurant">restaurant</span>
 </div>
+</div>
+<div>
+<p class="font-bold text-on-surface">Artisanal Tomato</p>
+<p class="text-sm text-muted-foreground">San Marzano with fresh basil</p>
+</div>
+</div>
+<div class="flex items-center gap-3">
+<span class="text-sm font-bold text-primary">+$0.00</span>
+<input checked="" class="w-6 h-6 text-primary-container border-border focus:ring-primary-container rounded-full" name="sauce" type="radio"/>
+</div>
+</label>
+<!-- Option 2 -->
+<label class="group flex items-center justify-between p-4 bg-card border border-border rounded-2xl cursor-pointer hover:border-primary-container transition-all active:scale-[0.98]">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 rounded-xl bg-surface-container overflow-hidden">
+<div class="w-full h-full bg-secondary-container/20 flex items-center justify-center">
+<span class="material-symbols-outlined text-secondary" data-icon="water_drop">water_drop</span>
+</div>
+</div>
+<div>
+<p class="font-bold text-on-surface">Honey Mustard Glaze</p>
+<p class="text-sm text-muted-foreground">The classic pretzel pairing</p>
+</div>
+</div>
+<div class="flex items-center gap-3">
+<span class="text-sm font-bold text-primary">+$1.50</span>
+<input class="w-6 h-6 text-primary-container border-border focus:ring-primary-container rounded-full" name="sauce" type="radio"/>
+</div>
+</label>
+<!-- Option 3 -->
+<label class="group flex items-center justify-between p-4 bg-card border border-border rounded-2xl cursor-pointer hover:border-primary-container transition-all active:scale-[0.98]">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 rounded-xl bg-surface-container overflow-hidden">
+<div class="w-full h-full bg-tertiary-container/20 flex items-center justify-center">
+<span class="material-symbols-outlined text-tertiary" data-icon="egg">egg</span>
+</div>
+</div>
+<div>
+<p class="font-bold text-on-surface">Creamy Garlic Aioli</p>
+<p class="text-sm text-muted-foreground">Rich, roasted garlic spread</p>
+</div>
+</div>
+<div class="flex items-center gap-3">
+<span class="text-sm font-bold text-primary">+$1.25</span>
+<input class="w-6 h-6 text-primary-container border-border focus:ring-primary-container rounded-full" name="sauce" type="radio"/>
+</div>
+</label>
+<!-- Option 4 -->
+<label class="group flex items-center justify-between p-4 bg-card border border-border rounded-2xl cursor-pointer hover:border-primary-container transition-all active:scale-[0.98]">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 rounded-xl bg-surface-container overflow-hidden">
+<div class="w-full h-full bg-error-container/20 flex items-center justify-center">
+<span class="material-symbols-outlined text-error" data-icon="local_fire_department">local_fire_department</span>
+</div>
+</div>
+<div>
+<p class="font-bold text-on-surface">Spicy Buffalo</p>
+<p class="text-sm text-muted-foreground">Kick of heat for bold foodies</p>
+</div>
+</div>
+<div class="flex items-center gap-3">
+<span class="text-sm font-bold text-primary">+$1.00</span>
+<input class="w-6 h-6 text-primary-container border-border focus:ring-primary-container rounded-full" name="sauce" type="radio"/>
+</div>
+</label>
 </section>
+
+        </section>
+        <footer class="fixed bottom-0 left-0 w-full bg-surface dark:bg-dark-card border-t border-outline-variant/30 py-4 px-6 shadow-2xl z-50">
+<div class="max-w-lg mx-auto flex gap-4">
+<button class="flex-1 h-14 rounded-xl border-2 border-border font-bold text-on-surface-variant hover:bg-surface-variant/20 transition-all active:scale-95">
+                Back
+            </button>
+<button class="flex-[2] h-14 rounded-xl bg-primary-container text-white font-bold flex items-center justify-center gap-2 shadow-lg shadow-primary-container/20 hover:opacity-90 transition-all active:scale-95">
+                Next: Cheese
+                <span class="material-symbols-outlined" data-icon="chevron_right">chevron_right</span>
+</button>
+</div>
+</footer>
+    </div> <!-- END VIEW BUILD -->
+
 </main>
-<!-- Footer -->
-<footer class="bg-dark-background text-white pt-16 pb-24 lg:pb-12 px-6">
+
+<!-- Footer Original (Mejorado con Preferencias en Suscripción) -->
+<footer id="main-footer" class="bg-dark-background text-white pt-16 pb-24 lg:pb-12 px-6">
 <div class="max-w-container-max mx-auto">
 <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 pb-12 border-b border-white/10">
-<div class="space-y-6">
+<div class="space-y-6 reveal">
 <div class="flex items-center gap-2">
 <span class="text-3xl">🥨</span>
 <span class="font-h1-hero text-2xl font-bold text-primary">Pretzel Pizza</span>
@@ -185,12 +575,23 @@
 <a class="w-10 h-10 bg-white/5 rounded-full flex items-center justify-center hover:bg-primary transition-colors" href="#"><span class="material-symbols-outlined text-sm">share</span></a>
 </div>
 </div>
-<div>
+<div class="reveal">
 <h3 class="font-bold text-xl mb-6">Join the Twist Club</h3>
 <p class="text-muted-foreground mb-6">Get 15% off your first order and stay updated on our latest creations.</p>
-<form class="flex flex-col sm:flex-row gap-3">
-<input class="bg-white/5 border border-white/10 rounded-full px-6 py-3 flex-1 focus:outline-none focus:border-primary text-white" placeholder="Your email address" type="email"/>
-<button class="bg-primary text-white font-bold px-8 py-3 rounded-full hover:bg-primary/90 transition-colors">Subscribe</button>
+<form id="subscribe-form" class="flex flex-col gap-3">
+    <div class="flex flex-col sm:flex-row gap-3">
+        <input id="sub-name" class="bg-white/5 border border-white/10 rounded-full px-6 py-3 flex-1 focus:outline-none focus:border-primary text-white" placeholder="Your Name" type="text" required/>
+        <input id="sub-email" class="bg-white/5 border border-white/10 rounded-full px-6 py-3 flex-1 focus:outline-none focus:border-primary text-white" placeholder="Your email address" type="email" required/>
+    </div>
+    <div class="flex flex-col sm:flex-row gap-3">
+        <select id="sub-pref" class="bg-[#2A221C] border border-white/10 rounded-full px-6 py-3 flex-1 focus:outline-none focus:border-primary text-white appearance-none" required>
+            <option value="" disabled selected>Pizza Preference</option>
+            <option value="meat">Meat Lover</option>
+            <option value="veggie">Veggie</option>
+            <option value="cheese">Extra Cheese</option>
+        </select>
+        <button type="submit" class="bg-primary text-white font-bold px-8 py-3 rounded-full hover:bg-primary/90 transition-colors">Subscribe</button>
+    </div>
 </form>
 </div>
 </div>
@@ -203,23 +604,135 @@
 </div>
 </div>
 </footer>
-<!-- Mobile Navigation Bar -->
-<nav class="md:hidden fixed bottom-0 left-0 w-full bg-surface shadow-2xl z-50 border-t border-border/20 py-3 px-4 flex justify-around items-center">
-<a class="flex flex-col items-center justify-center text-primary" href="/">
+
+<!-- Mobile Navigation Bar Original (Convertida a SPA) -->
+<nav id="mobile-nav" class="md:hidden fixed bottom-0 left-0 w-full bg-surface dark:bg-dark-background shadow-2xl z-50 border-t border-border/20 dark:border-white/10 py-3 px-4 flex justify-around items-center transition-colors duration-300">
+<button onclick="navigate('menu')" class="flex flex-col items-center justify-center text-primary">
 <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">restaurant_menu</span>
 <span class="font-nav-link text-nav-link mt-1">Menu</span>
-</a>
-<a class="flex flex-col items-center justify-center text-muted-foreground" href="/offers">
+</button>
+<button onclick="navigate('home')" class="flex flex-col items-center justify-center text-muted-foreground dark:text-gray-400 hover:text-primary transition-colors">
 <span class="material-symbols-outlined">local_offer</span>
 <span class="font-nav-link text-nav-link mt-1">Offers</span>
-</a>
-<a class="flex flex-col items-center justify-center text-muted-foreground" href="/orders">
+</button>
+<button class="flex flex-col items-center justify-center text-muted-foreground dark:text-gray-400 hover:text-primary transition-colors">
 <span class="material-symbols-outlined">receipt_long</span>
 <span class="font-nav-link text-nav-link mt-1">Orders</span>
-</a>
-<a class="flex flex-col items-center justify-center text-muted-foreground" href="/profile">
+</button>
+<button class="flex flex-col items-center justify-center text-muted-foreground dark:text-gray-400 hover:text-primary transition-colors">
 <span class="material-symbols-outlined">person</span>
 <span class="font-nav-link text-nav-link mt-1">Profile</span>
-</a>
+</button>
 </nav>
-</body></html>
+
+<!-- JS Scripts -->
+<script>
+    // SPA Navigation
+    function navigate(viewId) {
+        document.querySelectorAll('.spa-view').forEach(view => {
+            view.classList.remove('active');
+        });
+        document.getElementById('view-' + viewId).classList.add('active');
+        
+        // Hide global footers/navs on the build view to prevent overlap
+        const mainFooter = document.getElementById('main-footer');
+        const mobileNav = document.getElementById('mobile-nav');
+        if (viewId === 'build') {
+            if (mainFooter) mainFooter.style.display = 'none';
+            if (mobileNav) mobileNav.style.display = 'none';
+        } else {
+            if (mainFooter) mainFooter.style.display = 'block';
+            if (mobileNav) mobileNav.style.display = 'flex';
+        }
+        
+        // Update Navbar Colors
+        document.querySelectorAll('.nav-link').forEach(link => {
+            link.classList.remove('text-primary');
+            link.classList.add('text-muted-foreground', 'dark:text-gray-400');
+            if (link.textContent.toLowerCase().includes(viewId.substring(0,4))) {
+                link.classList.add('text-primary');
+                link.classList.remove('text-muted-foreground', 'dark:text-gray-400');
+            }
+        });
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+        setTimeout(revealOnScroll, 100);
+    }
+
+    // Scroll Reveal Animation
+    function revealOnScroll() {
+        const reveals = document.querySelectorAll('.reveal');
+        const windowHeight = window.innerHeight;
+        const elementVisible = 50;
+        reveals.forEach(reveal => {
+            const elementTop = reveal.getBoundingClientRect().top;
+            if (elementTop < windowHeight - elementVisible) {
+                reveal.classList.add('active');
+            }
+        });
+    }
+    window.addEventListener('scroll', revealOnScroll);
+    window.addEventListener('load', revealOnScroll);
+
+    // Dark Mode Toggle
+    function toggleDark() {
+        document.documentElement.classList.toggle('dark');
+        const icon = document.getElementById('theme-icon');
+        icon.textContent = document.documentElement.classList.contains('dark') ? 'light_mode' : 'dark_mode';
+    }
+
+    // Menu Filters
+    const filterBtns = document.querySelectorAll('.filter-btn');
+    const menuItems = document.querySelectorAll('.menu-item');
+
+    filterBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+            filterBtns.forEach(b => {
+                b.classList.remove('bg-primary', 'text-white', 'border-primary');
+                b.classList.add('text-muted-foreground', 'border-border', 'dark:text-gray-400');
+            });
+            btn.classList.add('bg-primary', 'text-white', 'border-primary');
+            btn.classList.remove('text-muted-foreground', 'border-border', 'dark:text-gray-400');
+            
+            const cat = btn.getAttribute('data-filter');
+            menuItems.forEach(item => {
+                if (cat === 'all' || item.getAttribute('data-category') === cat) {
+                    item.style.display = 'block';
+                    setTimeout(() => { item.style.opacity = '1'; item.style.transform = 'scale(1)'; }, 50);
+                } else {
+                    item.style.opacity = '0';
+                    item.style.transform = 'scale(0.9)';
+                    setTimeout(() => { item.style.display = 'none'; }, 300);
+                }
+            });
+        });
+    });
+
+    // Cart Logic
+    let cartCount = 2; // starting value
+    const cartCounterEl = document.getElementById('cart-counter');
+    const toast = document.getElementById('toast');
+    let toastTimeout;
+
+    document.querySelectorAll('.btn-add').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            e.preventDefault();
+            cartCount++;
+            cartCounterEl.textContent = cartCount;
+            cartCounterEl.style.transform = 'scale(1.5)';
+            setTimeout(() => { cartCounterEl.style.transform = 'scale(1)'; }, 200);
+
+            toast.classList.add('show');
+            clearTimeout(toastTimeout);
+            toastTimeout = setTimeout(() => { toast.classList.remove('show'); }, 3000);
+        });
+    });
+
+    // Subscribe Form
+    document.getElementById('subscribe-form').addEventListener('submit', (e) => {
+        e.preventDefault();
+        alert('Thanks for joining the Twist Club! Your preferences have been saved.');
+        e.target.reset();
+    });
+</script>
+</body>
+</html>

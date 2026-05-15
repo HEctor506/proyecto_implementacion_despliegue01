@@ -6,7 +6,7 @@ A static website for Pretzel Pizza, featuring artisanal pretzel crust pizzas. Bu
 
 - Responsive design
 - Functional navigation between pages
-- Centralized styles in `styles.css`
+- Centralized styles in `stylesheets/style.css`
 - Clean project structure
 - Compatible with GitHub Pages
 
@@ -36,6 +36,6 @@ Download the original images from the Google links and save them locally.
 
 ## Development
 
-- Styles are centralized in `styles.css`
+- Styles are centralized in `stylesheets/style.css`
 - Tailwind config is in `config.js`
 - Fonts and icons are loaded from Google Fonts and Material Symbols
